@@ -11,11 +11,12 @@ trait CanManageAsset {
         $this->page->findAll("link[href]")->filter(function($key, $element) {
             $attributes = $element->attr();
 
-            if (array_key_exists("href", $attributes) && str_contains($attributes["href"], $this->url)) {
+            if (preg_match("/\.css/", $attributes["href"])) {
                 $asset = $attributes["href"];
-                
-                Asset::css($asset);
+
+                Asset::css($asset);            
             }
+
         });
     }
 
@@ -23,24 +24,26 @@ trait CanManageAsset {
         $this->page->findAll("script[src]")->filter(function($key, $element) {
             $attributes = $element->attr();
     
-            if (array_key_exists("src", $attributes) && str_contains($attributes["src"], $this->url)) {
-                $asset = $attributes["src"];
-                
-                Asset::js($asset);
+            $pattern = "/\.js/";
+            
+            foreach ($attributes as $attribute => $value) {
+                if (!preg_match($pattern, $value)) continue;
+
+                Asset::js($value);
             }
         });
     }
 
     public function setMediaAssetLinks(): void {
-        $this->page->findAll("img[src]")->each(function($key, $img) {
-            if (str_starts_with($img->html(), "<img")) {
-                $attributes = $img->attr();
+        $this->page->findAll("img")->each(function($key, $img) {
+            $attributes = $img->attr();
 
-                if (array_key_exists("src", $attributes) && str_contains($attributes["src"], $this->url) && strripos($attributes["src"], ".")) {
-                    $asset = $attributes["src"];
+            $pattern = "/\.(jpe?g|png|webp|svg|gift)$/";
+            
+            foreach ($attributes as $attribute => $value) {
+                if (!preg_match($pattern, $value)) continue;
 
-                    Asset::media($asset);
-                }
+                Asset::media($value);
             }
         });
     }
@@ -56,9 +59,14 @@ trait CanManageAsset {
     public function saveFile(string $filename): void {
         $html = $this->page->display();
 
-        $html = str_replace($this->url, "/templates/", $html);
-        $html = str_replace(".min", "", $html);
+        foreach (Asset::get() as $type => $data) {
+            foreach ($data as $link => $meta) {
+                $html = str_replace($link, "/templates" . $meta["path"] . $meta["file"], $html);
+            }
+        }
 
-        File::save(dirname(__DIR__, 2) . "/templates/" . $filename . File::HTML_FILE_EXT, $html);
+        $html = str_replace($this->url, "/templates", $html);
+
+        File::save(dirname(__DIR__, 3) . "/templates/" . $filename . File::HTML_FILE_EXT, $html);
     }
 }

@@ -50,8 +50,12 @@ final class Client {
         $this->removeAdditionalLinkTags();
     }
 
-    public function changeExternalLinks(): void {
-        $this->changeExternalLinksToHashedValue();
+    public function changeLinks(): void {
+        $this->hashLinks();
+
+        // $this->hashExternalLinks();
+        
+        // $this->hashLocalLinks();
     }
     
     public function setAssets(): void {

@@ -4,16 +4,44 @@ namespace App\Traits\Client;
 
 
 trait CanManageLink {
-    public function changeExternalLinksToHashedValue(): void {
+    public function hashLinks(): void {
         $this->page->findAll("a[href]")->each(function($key, $anchor) {
-            if (str_starts_with($anchor->html(), "<a")) {
-                $attributes = $anchor->attr();
-    
-                if (array_key_exists("href", $attributes)) {
-                    unset($attributes["href"]);
-    
-                    $anchor->attr("href", "#");
-                }
+            $attributes = $anchor->attr();
+
+            unset($attributes["href"]);
+
+            $anchor->attr("href", "#");
+        });        
+    }
+
+    public function hashExternalLinks(): void {
+        $this->page->findAll("a[href]")->each(function($key, $anchor) {
+            $attributes = $anchor->attr();
+
+            $domain = $this->getDomainFromURL();
+
+            foreach ($attributes as $attribute => $value) {
+                if (str_contains($domain, $value)) continue;
+
+                unset($attributes["href"]);
+
+                $anchor->attr("href", "#");
+            }
+        });
+    }
+
+    public function hashLocalLinks(): void {
+        $this->page->findAll("a[href]")->each(function($key, $anchor) {
+            $attributes = $anchor->attr();
+
+            $domain = $this->getDomainFromURL();
+
+            foreach ($attributes as $attribute => $value) {
+                if (!str_contains($domain, $value)) continue;
+
+                unset($attributes["href"]);
+
+                $anchor->attr("href", "#");
             }
         });
     }

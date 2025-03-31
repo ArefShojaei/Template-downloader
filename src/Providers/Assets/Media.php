@@ -14,12 +14,14 @@ final class Media {
 
         $file = end($parsedAsset);
 
-        $pattern = "/(?<file>[\w_-]+(?<ext>.[css|js|jpeg|jpg|png|webp|svg|git|woff|woff2|eot]+))/";
+        $pattern = "/(?<filename>[\w_-]+)(?<ext>\..*)/";
 
         preg_match($pattern, $file, $matches);
 
+        $file = $matches["filename"] . current(explode("?", $matches["ext"]));
+
         $meta = [
-            "file" => $matches["file"],
+            "file" => $file,
             "path" => "/assets" . self::FOLDER
         ];
     

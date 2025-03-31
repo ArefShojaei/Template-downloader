@@ -13,7 +13,7 @@ interface CanManageAssetInterface {
 }
 
 interface CanManageLinkInterface {
-    public function changeExternalLinksToHashedValue(): void;
+    public function hashExternalLinks(): void;
 }
 
 interface CanRemoveTagInterface {
