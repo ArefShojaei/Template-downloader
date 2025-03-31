@@ -2,7 +2,7 @@
 
 namespace App\Utils;
 
-use App\Interfaces\Directory as DirectoryInterface;
+use App\Interfaces\Fs\Directory as DirectoryInterface;
 
 
 final class Dir implements DirectoryInterface {
