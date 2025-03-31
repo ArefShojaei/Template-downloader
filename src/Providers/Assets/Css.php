@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils\Assets;
+namespace App\Providers\Assets;
 
 
 final class Css {
@@ -14,7 +14,7 @@ final class Css {
 
         $file = end($parsedAsset);
         
-        $file = str_replace(".min", "", $file);
+        // $file = str_replace(".min", "", $file);
 
         $pattern = "/(?<file>[\w_-]+(?<ext>.[css|js|jpeg|jpg|png|webp|svg|git|woff|woff2|eot]+))/";
 

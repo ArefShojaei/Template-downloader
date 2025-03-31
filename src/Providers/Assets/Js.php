@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils\Assets;
+namespace App\Providers\Assets;
 
 
 final class Js {

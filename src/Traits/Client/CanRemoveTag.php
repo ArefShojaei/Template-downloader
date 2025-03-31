@@ -16,7 +16,7 @@ trait CanRemoveTag {
         });
     }
 
-    public function removeAdditionalLinkTags() {
+    public function removeAdditionalLinkTags(): void {
         $this->page->findAll("link")->each(function ($key, $link) {
             $key++;
 

@@ -8,10 +8,9 @@ use PhpX\{
     Components\Console\App,
     Utils\Console\Console
 };
-use App\Utils\{
-    Client,
-    Http
-};
+use App\Client;
+use App\Utils\Http;
+use function App\replaceRelativeToAbsolutePath;
 
 
 $app = new App;
@@ -19,32 +18,23 @@ $app = new App;
 $app->command("template {url}", function(string $url) {
     $html = Http::get($url);
 
-    $html = Client::replaceRelativePathToAbsolutePath($html, $url);
+    $html = replaceRelativeToAbsolutePath($html, $url);
     
     $spider = new Spider;
     
     $page = $spider->loadHTML($html);
 
-
     $client = new Client($page, $url);
 
     $client->setDomainFromURL();
     
-    $client->removeAdditionalMetaTags();
+    $client->changeAdditionalTags();
+    
+    $client->changeExternalLinks();
+    
+    $client->setAssets();
 
-    $client->removeAdditionalLinkTags();
-
-    $client->setCssAssetLinks();
-
-    $client->setScriptAssetLinks();
-
-    $client->setMediaAssetLinks();
-
-    $client->replaceExternalLinksToHashedValue();
-
-    $client->saveAssets();
-
-    $client->saveFile();
+    $client->saveTemplate();
 
 
     return Console::info("Template saved.");

@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Utils\Assets;
-
-use PhpX\Utils\Console\Console;
+namespace App\Providers\Assets;
 
 
 final class Media {

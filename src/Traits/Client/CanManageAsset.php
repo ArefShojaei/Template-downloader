@@ -2,11 +2,12 @@
 
 namespace App\Traits\Client;
 
-use App\Utils\Asset;
+use App\Asset;
 use App\Utils\File;
 
+
 trait CanManageAsset {
-    public function setCssAssetLinks() {
+    public function setCssAssetLinks(): void {
         $this->page->findAll("link[href]")->filter(function($key, $element) {
             $attributes = $element->attr();
 
@@ -18,7 +19,7 @@ trait CanManageAsset {
         });
     }
 
-    public function setScriptAssetLinks() {
+    public function setScriptAssetLinks(): void {
         $this->page->findAll("script[src]")->filter(function($key, $element) {
             $attributes = $element->attr();
     
@@ -30,7 +31,7 @@ trait CanManageAsset {
         });
     }
 
-    public function setMediaAssetLinks() {
+    public function setMediaAssetLinks(): void {
         $this->page->findAll("img[src]")->each(function($key, $img) {
             if (str_starts_with($img->html(), "<img")) {
                 $attributes = $img->attr();
@@ -48,16 +49,16 @@ trait CanManageAsset {
         return $this->assets;
     }
 
-    public function saveAssets() {
+    public function saveAssets(): void {
         Asset::download();
     }
 
-    public function saveFile() {
+    public function saveFile(string $filename): void {
         $html = $this->page->display();
 
         $html = str_replace($this->url, "/templates/", $html);
         $html = str_replace(".min", "", $html);
 
-        File::save(dirname(__DIR__, 2) . "/templates/" . self::INDEXABLE_FILE, $html);
+        File::save(dirname(__DIR__, 2) . "/templates/" . $filename . File::HTML_FILE_EXT, $html);
     }
 }

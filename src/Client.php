@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App;
 
 use App\Traits\Client\{
     CanManageAsset,    
@@ -13,13 +13,11 @@ use Spider\Page;
 final class Client {
     use CanRemoveTag, CanManageLink, CanManageAsset;
 
-    private const INDEXABLE_FILE = "index.html"; 
-
     private Page $page;
 
     private string $url;
     
-    private string $domain;
+    private ?string $domain;
 
     private array $assets;
 
@@ -27,20 +25,9 @@ final class Client {
     public function __construct(Page $page, string $url) {
         $this->page = $page;
 
-        $this->assets = [];
-
         $this->url = $url;
-    }
-
-    public static function replaceRelativePathToAbsolutePath(string $html, string $url): string {
-        $pattern = "/(?<attr>src|href)\s*=['\"](?<src>[\w\/._-]+)['\"]/";
         
-        return preg_replace_callback($pattern, function($matches) use ($url) {
-            $src = $url . $matches["src"];
-            $attr = $matches["attr"];
-    
-            return "{$attr}=\"{$src}\"";
-        }, $html);
+        $this->assets = [];
     }
 
     public function setDomainFromURL(): void {
@@ -51,5 +38,33 @@ final class Client {
         $domain = $matches["domain"];
 
         $this->domain = $domain;
+    }
+
+    public function getDomainFromURL(): ?string {
+        return $this->domain;
+    }
+
+    public function changeAdditionalTags(): void {
+        $this->removeAdditionalMetaTags();
+
+        $this->removeAdditionalLinkTags();
+    }
+
+    public function changeExternalLinks(): void {
+        $this->changeExternalLinksToHashedValue();
+    }
+    
+    public function setAssets(): void {
+        $this->setCssAssetLinks();
+
+        $this->setScriptAssetLinks();
+
+        $this->setMediaAssetLinks();
+    }
+
+    public function saveTemplate(string $filename = "index"): void {
+        $this->saveAssets();
+
+        $this->saveFile($filename);
     }
 }
