@@ -3,11 +3,10 @@
 namespace App\Traits\Client;
 
 use App\Asset;
-use App\Utils\File;
 
 
 trait CanManageAsset {
-    public function setCssAssetLinks(): void {
+    private function setCssAssetLinks(): void {
         $this->page->findAll("link[href]")->filter(function($key, $element) {
             $attributes = $element->attr();
 
@@ -16,11 +15,10 @@ trait CanManageAsset {
 
                 Asset::css($asset);            
             }
-
         });
     }
 
-    public function setScriptAssetLinks(): void {
+    private function setScriptAssetLinks(): void {
         $this->page->findAll("script[src]")->filter(function($key, $element) {
             $attributes = $element->attr();
     
@@ -34,7 +32,7 @@ trait CanManageAsset {
         });
     }
 
-    public function setMediaAssetLinks(): void {
+    private function setMediaAssetLinks(): void {
         $this->page->findAll("img")->each(function($key, $img) {
             $attributes = $img->attr();
 
@@ -48,25 +46,15 @@ trait CanManageAsset {
         });
     }
 
-    public function getAssetLinks(): array {
+    private function setAssets(): void {
+        $this->setCssAssetLinks();
+
+        $this->setScriptAssetLinks();
+
+        $this->setMediaAssetLinks();
+    }
+
+    private function getAssetLinks(): array {
         return $this->assets;
-    }
-
-    public function saveAssets(): void {
-        Asset::download();
-    }
-
-    public function saveFile(string $filename): void {
-        $html = $this->page->display();
-
-        foreach (Asset::get() as $type => $data) {
-            foreach ($data as $link => $meta) {
-                $html = str_replace($link, "/templates" . $meta["path"] . $meta["file"], $html);
-            }
-        }
-
-        $html = str_replace($this->url, "/templates", $html);
-
-        File::save(dirname(__DIR__, 3) . "/templates/" . $filename . File::HTML_FILE_EXT, $html);
     }
 }

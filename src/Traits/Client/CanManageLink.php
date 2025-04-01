@@ -4,7 +4,7 @@ namespace App\Traits\Client;
 
 
 trait CanManageLink {
-    public function hashLinks(): void {
+    private function hashLinks(): void {
         $this->page->findAll("a[href]")->each(function($key, $anchor) {
             $attributes = $anchor->attr();
 
@@ -12,5 +12,9 @@ trait CanManageLink {
 
             $anchor->attr("href", "#");
         });        
+    }
+
+    public function changeLinks(): void {
+        $this->hashLinks();
     }
 }

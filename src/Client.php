@@ -2,73 +2,28 @@
 
 namespace App;
 
+use App\Interfaces\Client as ClientInterface;
 use App\Traits\Client\{
-    CanManageAsset,    
+    CanDownloadFile,
+    CanManageAsset,
+    CanManageFile,
     CanManageLink,
-    CanRemoveTag
+    CanManageTagElement
 };
 use Spider\Page;
 
 
-final class Client {
-    use CanRemoveTag, CanManageLink, CanManageAsset;
+final class Client implements ClientInterface {
+    use CanManageTagElement, CanManageLink, CanManageAsset, CanManageFile, CanDownloadFile;
 
     private Page $page;
-
-    private string $url;
-    
-    private ?string $domain;
 
     private array $assets;
 
 
-    public function __construct(Page $page, string $url) {
+    public function __construct(Page $page) {
         $this->page = $page;
 
-        $this->url = $url;
-        
         $this->assets = [];
-    }
-
-    public function setDomainFromURL(): void {
-        $pattern = "/https?\:\/\/(?<domain>[\w._-]+)\..*/";
-    
-        preg_match($pattern, $this->url, $matches);
-
-        $domain = $matches["domain"];
-
-        $this->domain = $domain;
-    }
-
-    public function getDomainFromURL(): ?string {
-        return $this->domain;
-    }
-
-    public function changeAdditionalTags(): void {
-        $this->removeAdditionalMetaTags();
-
-        $this->removeAdditionalLinkTags();
-    }
-
-    public function changeLinks(): void {
-        $this->hashLinks();
-
-        // $this->hashExternalLinks();
-        
-        // $this->hashLocalLinks();
-    }
-    
-    public function setAssets(): void {
-        $this->setCssAssetLinks();
-
-        $this->setScriptAssetLinks();
-
-        $this->setMediaAssetLinks();
-    }
-
-    public function saveTemplate(string $filename = "index"): void {
-        $this->saveAssets();
-
-        $this->saveFile($filename);
     }
 }

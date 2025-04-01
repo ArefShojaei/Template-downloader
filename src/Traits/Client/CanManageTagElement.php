@@ -4,7 +4,7 @@ namespace App\Traits\Client;
 
 
 trait CanManageTagElement {
-    public function removeAdditionalMetaTags(): void {
+    private function removeAdditionalMetaTags(): void {
         $this->page->findAll("meta")->each(function ($key, $meta) {
             $key++;
 
@@ -12,11 +12,17 @@ trait CanManageTagElement {
         });
     }
 
-    public function removeAdditionalLinkTags(): void {
+    private function removeAdditionalLinkTags(): void {
         $this->page->findAll("link")->each(function ($key, $link) {
             $key++;
 
             if (!str_contains($link->html(), "stylesheet")) $link->remove();
         });
+    }
+
+    public function changeAdditionalTags(): void {
+        $this->removeAdditionalMetaTags();
+
+        $this->removeAdditionalLinkTags();
     }
 }
