@@ -3,41 +3,51 @@
 require_once __DIR__ . "/vendor/autoload.php";
 
 
-use Spider\Spider;
 use PhpX\{
     Components\Console\App,
     Utils\Console\Console
 };
-use App\Client;
-use App\Utils\Http;
-use function App\replaceRelativeToAbsolutePath;
+use Spider\Spider;
+use App\{
+    Client,
+    Utils\Http,
+    Utils\URL
+};
+use function App\{
+    replaceRelativeToAbsoluteLink,
+    replaceFormActionURLToHashedValue
+};
+
 
 
 $app = new App;
 
 $app->command("template {url}", function(string $url) {
     $html = Http::get($url);
-
-    $html = replaceRelativeToAbsolutePath($html, $url);
     
+    $html = replaceRelativeToAbsoluteLink($html, $url);
+
+    $html = replaceFormActionURLToHashedValue($html);
+
     $spider = new Spider;
     
     $page = $spider->loadHTML($html);
 
-    $client = new Client($page, $url);
-
-    $client->setDomainFromURL();
+    URL::set($url);
     
+    $client = new Client($page);
+
     $client->changeAdditionalTags();
     
-    $client->changeExternalLinks();
-    
-    $client->setAssets();
+    $client->changeLinks();
 
-    $client->saveTemplate();
+    $client->downloadAssets();
 
+    $client->downloadTemplate();
 
-    return Console::info("Template saved.");
+    $client->saveArchive();
+
+    return Console::success("Template saved.");
 });
 
 $app->launch();
