@@ -6,6 +6,8 @@ use App\Interfaces\Fs\File as FileInterface;
 
 
 final class File implements FileInterface {
+    public const ARCHIVE_FILE_EXT = ".zip";
+    
     public const HTML_FILE_EXT = ".html";
     
     public const CSS_FILE_EXT = ".css";
