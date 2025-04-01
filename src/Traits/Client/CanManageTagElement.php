@@ -3,7 +3,7 @@
 namespace App\Traits\Client;
 
 
-trait CanRemoveTag {
+trait CanManageTagElement {
     public function removeAdditionalMetaTags(): void {
         $this->page->findAll("meta")->each(function ($key, $meta) {
             $key++;
