@@ -16,8 +16,12 @@ final class Archive implements ArchiveInterface {
         $this->zip->open($file, ZipArchive::CREATE);
     }
 
-    public function addFile(string $file): bool {
-        return $this->zip->addFile($file, $file);
+    public function addFile(string $file, string $name = null): bool {
+        return $this->zip->addFile($file, $name);
+    }
+
+    public function addComment(string $message): bool {
+        return $this->zip->setArchiveComment($message);
     }
 
     public function save(): bool {
