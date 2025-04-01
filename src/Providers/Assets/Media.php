@@ -2,8 +2,11 @@
 
 namespace App\Providers\Assets;
 
+use App\Asset;
+use App\Interfaces\AssetProvider as AssetProviderInterface;
 
-final class Media {
+
+final class Media implements AssetProviderInterface {
     private const FOLDER = "/images/";
 
     private static array $assets = [];
@@ -20,10 +23,7 @@ final class Media {
 
         $file = $matches["filename"] . current(explode("?", $matches["ext"]));
 
-        $meta = [
-            "file" => $file,
-            "path" => "/assets" . self::FOLDER
-        ];
+        $meta = Asset::defineMeta(self::FOLDER, $file);
     
         self::$assets[$asset] = $meta;
     }

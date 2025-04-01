@@ -2,8 +2,11 @@
 
 namespace App\Providers\Assets;
 
+use App\Asset;
+use App\Interfaces\AssetProvider as AssetProviderInterface;
 
-final class Js {
+
+final class Js implements AssetProviderInterface {
     private const FOLDER = "/scripts/";
 
     private static array $assets = [];
@@ -20,10 +23,7 @@ final class Js {
 
         $file = $matches["filename"] . current(explode("?", $matches["ext"]));
 
-        $meta = [
-            "file" => $file,
-            "path" => "/assets" . self::FOLDER
-        ];
+        $meta = Asset::defineMeta(self::FOLDER, $file);
     
         self::$assets[$asset] = $meta;
     }

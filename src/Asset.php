@@ -36,6 +36,13 @@ final class Asset implements AssetInterface {
         return self::$assets;
     }
 
+    public static function defineMeta(string $folder, string $file): array {
+        return [
+            "file" => $file,
+            "path" => "/assets" . $folder
+        ];
+    }
+
     public static function download(): void {
         foreach (self::get() as $type => $assets) {
             echo Console::info(label:"ASSET", message:"Downloading \"{$type}\" asset files...") . PHP_EOL;

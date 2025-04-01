@@ -2,11 +2,14 @@
 
 namespace App\Providers\Assets;
 
+use App\Asset;
+use App\Interfaces\AssetProvider as AssetProviderInterface;
 
-final class Css {
+
+final class Css implements AssetProviderInterface {
     private const FOLDER = "/styles/";
 
-    public static array $assets = [];
+    private static array $assets = [];
 
 
     public static function add(string $asset): void {
@@ -20,10 +23,7 @@ final class Css {
 
         $file = $matches["filename"] . current(explode("?", $matches["ext"]));
 
-        $meta = [
-            "file" => $file,
-            "path" => "/assets" . self::FOLDER
-        ];
+        $meta = Asset::defineMeta(self::FOLDER, $file);
     
         self::$assets[$asset] = $meta;
     }
