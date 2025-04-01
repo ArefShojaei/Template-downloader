@@ -7,14 +7,15 @@ use PhpX\Utils\Console\Console;
 use App\Utils\{
     Dir,
     File,
-    Http
+    Http,
+    URL
 };
 
 
 final class Asset implements AssetInterface {
     private const PROVDERS_PATH = "\\Providers\\Assets\\";
 
-    private const RELATIVE_ASSET_FOLDER = "/templates";
+    private const RELATIVE_ASSET_FOLDER = "/dist/";
 
     private static array $assets = [];
 
@@ -37,12 +38,14 @@ final class Asset implements AssetInterface {
 
     public static function download(): void {
         foreach (self::get() as $type => $assets) {
-            echo Console::info("Downloading {$type} files ...") . PHP_EOL;
+            echo Console::info(label:"ASSET", message:"Downloading \"{$type}\" asset files...") . PHP_EOL;
             
             foreach ($assets as $link => $meta) {
                 $content = Http::get($link);
-        
-                $folder = dirname(__DIR__) . self::RELATIVE_ASSET_FOLDER . $meta["path"];
+
+                $domain = URL::domain();
+
+                $folder = dirname(__DIR__) . self::RELATIVE_ASSET_FOLDER . (!is_null($domain) ? $domain . "/" : "") . ltrim($meta["path"], "/");
         
                 $file = $folder . $meta["file"];
         
@@ -50,7 +53,7 @@ final class Asset implements AssetInterface {
         
                 if(!File::has($file)) File::save($file, $content);
         
-                echo Console::info($file) . PHP_EOL;
+                echo Console::warn(label:strtoupper($type), message:$file) . PHP_EOL;
             }
         }
     }
