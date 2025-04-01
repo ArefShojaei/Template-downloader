@@ -26,10 +26,9 @@ interface Client extends
     CanRemoveTagInterface,
     CanManageLinkInterface,
     CanManageLinkInterface {
-        public function setDomainFromURL(): void;
-        public function getDomainFromURL(): ?string;
         public function changeAdditionalTags(): void;
-        public function changeExternalLinks(): void;
+        public function changeLinks(): void;
         public function setAssets(): void;
         public function saveTemplate(string $filename = "index"): void;
+        public function saveArchive(): void;
     }
