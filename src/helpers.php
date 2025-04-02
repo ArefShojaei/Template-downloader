@@ -2,6 +2,13 @@
 
 namespace App;
 
+use Spider\Spider;
+use App\Client;
+use App\Utils\{
+    Http,
+    URL
+};
+
 
 function replaceRelativeToAbsoluteLink(string $html, string $url): string {
     $pattern = "/(?<attr>[a-z-]*?src|href)\s*=['\"](?<src>(?!https?)[\w\:\/\.\&\?\=\-\_\%]+)['\"]/";
@@ -24,4 +31,32 @@ function replaceFormActionURLToHashedValue(string $html): string {
 
         return "action=\"{$value}\"";
     }, $html);
+}
+
+function serveProject(string $url): bool {
+    $html = Http::get($url);
+    
+    $html = replaceRelativeToAbsoluteLink($html, $url);
+
+    $html = replaceFormActionURLToHashedValue($html);
+
+    $spider = new Spider;
+    
+    $page = $spider->loadHTML($html);
+
+    URL::set($url);
+    
+    $client = new Client($page);
+
+    $client->changeAdditionalTags();
+    
+    $client->changeLinks();
+
+    $client->downloadAssets();
+
+    $client->downloadTemplate();
+
+    $client->saveArchive();
+
+    return true;
 }
