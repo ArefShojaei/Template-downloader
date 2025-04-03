@@ -10,13 +10,14 @@ use PHPUnit\Framework\TestCase;
 final class HttpTest extends TestCase {
     private function getUrlProviders(): array {
         return [
+            # Valid
             ["https://google.com"],
             ["https://stackoverflow.com"],
             ["https://php.net"],
-
-            ["https://react.info"],
-            ["https://m.org"],
-            ["https://wp.net"],
+            # Invalid
+            ["https://auth.com/page"],
+            ["https://laravel.tk"],
+            ["https://auth.token.info"],
         ];
     }
 
@@ -30,9 +31,9 @@ final class HttpTest extends TestCase {
 
     private function getInvalidUrlProviders(): array {
         return [
-            ["https://auth.test.design"],
-            ["https://test.org/pages"],
-            ["https://test.ac"],
+            ["https://auth.com/page"],
+            ["https://laravel.tk"],
+            ["https://auth.token.info"],
         ];
     }
 
