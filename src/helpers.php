@@ -11,7 +11,7 @@ use App\Utils\{
 
 
 function replaceRelativeToAbsoluteLink(string $html, string $url): string {
-    $pattern = "/(?<attr>[a-z-]*?src|href)\s*=['\"](?<src>(?!https?)[\w\:\/\.\&\?\=\-\_\%]+)['\"]/";
+    $pattern = "/(?<attr>[a-z-]*?src|href)\s*=['\"](?<src>(?!https?)(?!\/\/)[\w\:\/\.\&\?\=\-\_\%]+)['\"]/";
         
     return preg_replace_callback($pattern, function($matches) use ($url) {
         $attr = $matches["attr"];
