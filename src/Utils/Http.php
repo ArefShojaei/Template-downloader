@@ -3,12 +3,14 @@
 namespace App\Utils;
 
 use Exception;
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as GuzzleClient;
 use PhpX\Utils\Console\Console;
 use App\Interfaces\Http as HttpInterface;
 
 
 final class Http implements HttpInterface {
+    public const OK = 200;
+
     public const SUCCESS = "success";
 
     public const ERROR = "error";
@@ -16,7 +18,7 @@ final class Http implements HttpInterface {
 
     public static function get($url): array {
         try {
-            $client = new Client;
+            $client = new GuzzleClient;
             
             $response = $client->request("GET", $url);
             
@@ -26,11 +28,10 @@ final class Http implements HttpInterface {
                 "data" => $response->getBody()
             ];
         } catch (Exception $error) {
-            echo Console::error(label:"HTTP", message: "Failed to send HTTP request!") . PHP_EOL;
-            
             return [
                 "status" => self::ERROR,
-                "message" => $error->getMessage()
+                "error" => $error->getMessage(),
+                "message" => Console::error(label:"HTTP", message: "Failed to send HTTP request! - {$url}"),
             ];
         }
     }
