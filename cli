@@ -25,7 +25,13 @@ $app->command("template --config", function() {
     
     $config = json_decode(File::get($file), true);
 
-    print_r($config);
+    foreach ($config as $domain => $meta) {
+        !array_key_exists("pages", $meta) && die(Console::error("The pages key doesn't exist!"));
+
+        $pages = $meta["pages"];
+
+        foreach ($pages as $filename => $url) serveProject($url);
+    }
 });
 
 $app->launch();

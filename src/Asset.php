@@ -48,7 +48,11 @@ final class Asset implements AssetInterface {
             echo Console::info(label:"ASSET", message:"Downloading \"{$type}\" asset files...") . PHP_EOL;
             
             foreach ($assets as $link => $meta) {
-                $content = Http::get($link);
+                $response = Http::get($link);
+
+                if ($response["status"] === Http::ERROR) continue;
+
+                $content = $response["data"];
 
                 $domain = URL::domain();
 
@@ -60,7 +64,7 @@ final class Asset implements AssetInterface {
         
                 if(!File::has($file)) File::save($file, $content);
         
-                echo Console::warn(label:strtoupper($type), message:$file) . PHP_EOL;
+                echo Console::warn(label:strtoupper($type), message:$link) . PHP_EOL;
             }
         }
     }

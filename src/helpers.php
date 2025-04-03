@@ -44,7 +44,11 @@ function createAssetProviderFile(string $asset, string $pattern): string {
 }
 
 function serveProject(string $url): bool {
-    $html = Http::get($url);
+    $response = Http::get($url);
+
+    if ($response["status"] === Http::ERROR) return false;
+
+    $html = $response["data"];
     
     $html = replaceRelativeToAbsoluteLink($html, $url);
 
