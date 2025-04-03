@@ -33,6 +33,16 @@ function replaceFormActionURLToHashedValue(string $html): string {
     }, $html);
 }
 
+function createAssetProviderFile(string $asset, string $pattern): string {
+    $parsedAsset = explode("/", $asset);
+
+    $file = end($parsedAsset);
+
+    preg_match($pattern, $file, $matches);
+
+    return $matches["filename"] . current(explode("?", $matches["ext"]));
+}
+
 function serveProject(string $url): bool {
     $html = Http::get($url);
     

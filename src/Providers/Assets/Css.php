@@ -4,6 +4,7 @@ namespace App\Providers\Assets;
 
 use App\Asset;
 use App\Interfaces\AssetProvider as AssetProviderInterface;
+use function App\createAssetProviderFile;
 
 
 final class Css implements AssetProviderInterface {
@@ -13,15 +14,9 @@ final class Css implements AssetProviderInterface {
 
 
     public static function add(string $asset): void {
-        $parsedAsset = explode("/", $asset);
-
-        $file = end($parsedAsset);
-
         $pattern = "/(?<filename>[\w_-]+)(?<ext>\..*)/";
 
-        preg_match($pattern, $file, $matches);
-
-        $file = $matches["filename"] . current(explode("?", $matches["ext"]));
+        $file = createAssetProviderFile($asset, $pattern);
 
         $meta = Asset::defineMeta(self::FOLDER, $file);
     
