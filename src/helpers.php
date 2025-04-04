@@ -3,10 +3,10 @@
 namespace App;
 
 use Spider\Spider;
-use App\Client;
+use App\Modules\Client\Client;
 use App\Utils\{
-    Http,
-    URL
+    Http\Http,
+    URL\URL
 };
 
 

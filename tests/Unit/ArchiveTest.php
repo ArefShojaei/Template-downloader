@@ -2,9 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Interfaces\Archive as ArchiveInterface;
-use App\Utils\Archive;
 use PHPUnit\Framework\TestCase;
+use App\Utils\Archive\{
+    Archive,
+    ArchiveInterface
+};
 
 
 final class ArchiveTest extends TestCase {

@@ -2,9 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Interfaces\Http as HttpInterface;
-use App\Utils\Http;
 use PHPUnit\Framework\TestCase;
+use App\Utils\Http\{
+    Http,
+    HttpInterface
+};
 
 
 final class HttpTest extends TestCase {
