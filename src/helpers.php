@@ -2,12 +2,7 @@
 
 namespace App;
 
-use Spider\Spider;
-use App\Modules\Client\Client;
-use App\Utils\{
-    Http\Http,
-    URL\URL
-};
+use App\Modules\Client\ClientBuilder;
 
 
 function replaceRelativeToAbsoluteLink(string $html, string $url): string {
@@ -44,23 +39,12 @@ function createAssetProviderFile(string $asset, string $pattern): string {
 }
 
 function serveProject(string $url): bool {
-    $response = Http::get($url);
-
-    if ($response["status"] === Http::ERROR) return false;
-
-    $html = $response["data"];
-    
-    $html = replaceRelativeToAbsoluteLink($html, $url);
-
-    $html = replaceFormActionURLToHashedValue($html);
-
-    $spider = new Spider;
-    
-    $page = $spider->loadHTML($html);
-
-    URL::set($url);
-    
-    $client = new Client($page);
+    $client = (new ClientBuilder($url))
+        ->setHttpDomain()
+        ->setHttpRequest()
+        ->setHtmlContentChanger()
+        ->setPageLoader()
+        ->build();
 
     $client->changeAdditionalTags();
     
