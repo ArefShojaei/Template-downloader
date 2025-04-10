@@ -3,21 +3,66 @@
 namespace App\Modules\Client;
 
 use App\Modules\Client\ClientBuilderInterface;
+use App\Utils\{
+    Http\Http,
+    URL\URL
+};
+use Spider\{
+    Page,
+    Spider
+};
+use function App\{
+    replaceFormActionURLToHashedValue,
+    replaceRelativeToAbsoluteLink
+};
+use Exception;
 
 
-/**
- * TODO: Complete ClientBuilder task. 
- */
 final class ClientBuilder implements ClientBuilderInterface {
-    public function setHttpRequest() {}
+    private string $url;
     
-    public function setDomainOfUrl() {}
+    private string $html;
+
+    private Page $page;
+
     
-    public function setHtmlLoader() {}
+    public function __construct(string $url){
+        $this->url = $url;
+    }
     
-    public function setHtmlContentChanger() {}
+    public function setHttpDomain(): self {
+        URL::set($this->url);
+
+        return $this;
+    }
     
-    public function setFileDownloader() {}
+    public function setHttpRequest(): self {
+        $response = Http::get($this->url);
+
+        if ($response["status"] === Http::ERROR) throw new Exception("Failed to get HTML response!");
     
-    public function build() {}
+        $this->html = $response["data"];
+
+        return $this;
+    }
+
+    public function setHtmlContentChanger(): self {
+        $html = replaceRelativeToAbsoluteLink($this->html, $this->url);
+
+        $this->html = replaceFormActionURLToHashedValue($html);
+    
+        return $this;
+    }
+
+    public function setPageLoader(): self {
+        $spider = new Spider;
+    
+        $this->page = $spider->loadHTML($this->html);
+
+        return $this;
+    }
+
+    public function build(): Client {
+        return new Client($this->page);
+    }
 }
