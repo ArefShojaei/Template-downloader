@@ -2,36 +2,48 @@
 
 require_once __DIR__ . "/vendor/autoload.php";
 
-
+use App\Utils\Config\Config;
 use PhpX\{
     Components\Console\App,
     Utils\Console\Console
 };
-use App\Utils\Fs\File;
-use function App\serveProject;
+
+use function App\{
+    downloadTemplateFonts,
+    downloadTemplatePages,
+    serveTemplate
+};
 
 
 
 $app = new App;
 
 $app->command("template {url}", function(string $url) {
-    serveProject($url);
-
-    return Console::success("Template saved.");
+    echo Console::info(label:"SIGNLE TASK", message:"Starting \"{$url}\" template task...") . PHP_EOL;
+    
+    serveTemplate($url);
+    
+    return Console::success(label:"SIGNLE TASK", message:"Done the template task successfully.");
 });
 
 $app->command("template --config", function() {
+    echo Console::info(label:"MULTIPLE TASK", message:"Starting template tasks...") . PHP_EOL;
+
     $file = __DIR__ . "/template.config.json";
     
-    $config = json_decode(File::get($file), true);
+    $config = Config::create($file)->get();
 
     foreach ($config as $domain => $meta) {
-        !array_key_exists("pages", $meta) && die(Console::error("The pages key doesn't exist!"));
+        !array_key_exists("pages", $meta) && die(Console::error("Pages key doesn't exist!"));
 
+        $fonts = $meta["fonts"];
         $pages = $meta["pages"];
 
-        foreach ($pages as $filename => $url) serveProject($url);
+        downloadTemplateFonts($fonts);
+        downloadTemplatePages($pages);
     }
+
+    return Console::success(label:"MULTIPLE TASK", message:"Done the template tasks successfully.");
 });
 
 $app->launch();
