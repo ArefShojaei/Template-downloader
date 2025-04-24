@@ -5,6 +5,7 @@ namespace App\Modules\Client\Providers;
 use App\Modules\Asset\Asset;
 use App\Utils\{
     Archive\Archive,
+    Fs\Directory,
     Fs\File,
     URL\URL
 };
@@ -24,9 +25,13 @@ trait CanManageFile {
 
         $domain = URL::domain();
 
-        $templateFile = dirname(__DIR__, 4) . "/dist/" . (!is_null($domain) ? $domain . "/" : "") . $filename . File::HTML_FILE_EXT;
+        $folder = dirname(__DIR__, 4) . "/dist/" . (!is_null($domain) ? $domain . "/" : "");
 
-        File::save($templateFile , $html);
+        $templateFile = $folder . $filename . File::HTML_FILE_EXT;
+
+        if (!Directory::has($folder)) Directory::create($folder);
+        
+        if(!File::has($templateFile)) File::save($templateFile, $html);
     }
 
     private function saveAssets(): void {
