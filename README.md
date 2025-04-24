@@ -7,6 +7,7 @@
 > Template
           |__ assets
                     |______ images/
+                    |______ fonts/
                     |______ scripts/
                     |______ styles/
  
