@@ -20,12 +20,12 @@ final class Config implements ConfigInterface {
     }
 
     public function get(string $key = null): mixed {
-        if (!$this->has($key)) return null;
+        if (isset($key) && $this->has($key)) return null;
 
-        return is_null($key) ? $this->data : $this->data[$key];
+        return is_null($key) ? static::$data : static::$data[$key];
     }
     
     private function has(string $key): bool {
-        return isset($this->data[$key]);
+        return isset(static::$data[$key]);
     }
 }
