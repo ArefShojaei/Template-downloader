@@ -18,12 +18,8 @@ final class Client implements ClientInterface {
 
     private Page $page;
 
-    private array $assets;
-
 
     public function __construct(Page $page) {
         $this->page = $page;
-
-        $this->assets = [];
     }
 }

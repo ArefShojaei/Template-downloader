@@ -53,8 +53,4 @@ trait CanManageAsset {
 
         $this->setMediaAssetLinks();
     }
-
-    private function getAssetLinks(): array {
-        return $this->assets;
-    }
 }
