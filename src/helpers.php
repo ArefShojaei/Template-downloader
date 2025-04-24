@@ -2,7 +2,17 @@
 
 namespace App;
 
-use App\Modules\Client\ClientBuilder;
+use App\Modules\Client\{
+    Client,
+    ClientBuilder
+};
+use App\Utils\{
+    Fs\Directory,
+    Fs\File,
+    Http\Http,
+    URL\URL,
+};
+use PhpX\Utils\Console\Console;
 
 
 function replaceRelativeToAbsoluteLink(string $html, string $url): string {
@@ -38,7 +48,7 @@ function createAssetProviderFile(string $asset, string $pattern): string {
     return $matches["filename"] . current(explode("?", $matches["ext"]));
 }
 
-function serveProject(string $url): bool {
+function serveTemplate(string $url, string $filename = "index"): Client {
     $client = (new ClientBuilder($url))
         ->setHttpDomain()
         ->setHttpRequest()
@@ -52,9 +62,39 @@ function serveProject(string $url): bool {
 
     $client->downloadAssets();
 
-    $client->downloadTemplate();
+    $client->downloadTemplate($filename);
 
-    $client->saveArchive();
+    return $client;
+}
 
-    return true;
+function downloadTemplateFonts(array $fonts): void {
+    foreach ($fonts as $font) {
+        URL::set($font);
+
+        $content = Http::get($font);
+
+        $parsedFont = explode("/", $font);
+
+        $file = end($parsedFont);
+
+        $domain = URL::domain();
+
+        $folder = __DIR__ . "/dist/" . (!is_null($domain) ? $domain . "/" : "") . "fonts/";
+
+        $fontFile = $folder . $file;
+
+        if (!Directory::has($folder)) Directory::create($folder);
+        
+        if(!File::has($fontFile)) File::save($fontFile, $content["data"]);
+    }
+}
+
+function downloadTemplatePages(array $pages): void {
+    foreach ($pages as $filename => $url) {
+        echo Console::info(label:"Child TASK", message:"Starting \"{$url}\" child template task...") . PHP_EOL;
+        
+        serveTemplate($url, $filename);
+
+        echo Console::success(label:"Child TASK", message:"Done the child template task.") . PHP_EOL;
+    }
 }
