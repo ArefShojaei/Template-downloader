@@ -26,7 +26,7 @@ final class ClientBuilder implements ClientBuilderInterface {
     private Page $page;
 
     
-    public function __construct(string $url){
+    public function __construct(string $url) {
         $this->url = $url;
     }
     
@@ -39,7 +39,7 @@ final class ClientBuilder implements ClientBuilderInterface {
     public function setHttpRequest(): self {
         $response = Http::get($this->url);
 
-        if ($response["status"] === Http::ERROR) throw new Exception("Failed to get HTML response!");
+        if ($response["status"] === Http::ERROR) throw new Exception($response["error"]);
     
         $this->html = $response["data"];
 
