@@ -10,7 +10,7 @@ use function App\createAssetProviderFile;
 
 
 final class Js implements AssetProviderInterface {
-    private const FOLDER = "/scripts/";
+    private const ASSET_FOLDER = "/scripts/";
 
     private static array $assets = [];
 
@@ -20,7 +20,7 @@ final class Js implements AssetProviderInterface {
         
         $file = createAssetProviderFile($asset, $pattern);
 
-        $meta = Asset::defineMeta(self::FOLDER, $file);
+        $meta = Asset::defineMeta(self::ASSET_FOLDER, $file);
     
         self::$assets[$asset] = $meta;
     }

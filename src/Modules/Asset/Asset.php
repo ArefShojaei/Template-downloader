@@ -8,12 +8,12 @@ use App\Utils\{
     Fs\Directory,
     Fs\File,
     Http\Http,
-    URL\URL
 };
+use function App\getAssetProviderFile;
 
 
 final class Asset implements AssetInterface {
-    private const PROVDERS_PATH = "\\Providers\\";
+    private const PROVDERS_FOLDER = "\\Providers\\";
 
     private const RELATIVE_ASSET_FOLDER = "/dist/";
 
@@ -21,15 +21,15 @@ final class Asset implements AssetInterface {
 
 
     public static function __callStatic($name, $params) {
-        $className = ucfirst($name);
+        $assetTypeClassName = ucfirst($name);
 
-        $class = __NAMESPACE__ . self::PROVDERS_PATH . $className;
+        $assetTypeClass = __NAMESPACE__ . self::PROVDERS_FOLDER . $assetTypeClassName;
         
-        if (!class_exists($class)) die(Console::error("\"{$class}\" class doesn't exist!"));
+        if (!class_exists($assetTypeClass)) die(Console::error("\"{$assetTypeClass}\" class doesn't exist!"));
 
-        $class::add(...$params);
+        $assetTypeClass::add(...$params);
         
-        self::$assets[$name] = $class::get();
+        self::$assets[$name] = $assetTypeClass::get();
     }
 
     public static function get(): array {
@@ -44,28 +44,33 @@ final class Asset implements AssetInterface {
     }
 
     public static function download(): void {
-        foreach (self::get() as $type => $assets) {
-            echo Console::info(label:"ASSET", message:"Downloading \"{$type}\" asset files...") . PHP_EOL;
-            
-            foreach ($assets as $link => $meta) {
-                $response = Http::get($link);
-
-                if ($response["status"] === Http::ERROR) continue;
-
-                $content = $response["data"];
-
-                $domain = URL::domain();
-
-                $folder = dirname(__DIR__, 3) . self::RELATIVE_ASSET_FOLDER . (!is_null($domain) ? $domain . "/" : "") . ltrim($meta["path"], "/");
+        if (self::isEmpty()) {
+            foreach (self::get() as $type => $assets) {
+                echo Console::info(label:"ASSET", message:"Downloading \"{$type}\" asset files...") . PHP_EOL;
+                
+                foreach ($assets as $link => $meta) {
+                    $response = Http::get($link);
+    
+                    if ($response["status"] === Http::OK) {
+                        $content = $response["data"];
         
-                $file = $folder . $meta["file"];
-        
-                if (!Directory::has($folder)) Directory::create($folder);
-        
-                if(!File::has($file)) File::save($file, $content);
-        
-                echo Console::warn(label:strtoupper($type), message:$link) . PHP_EOL;
+                        [$folder, $file] =  getAssetProviderFile(
+                            path: dirname(__DIR__, 3) . self::RELATIVE_ASSET_FOLDER,
+                            meta: $meta
+                        );
+                
+                        if (!Directory::has($folder)) Directory::create($folder);
+                
+                        if(!File::has($file)) File::save($file, $content);
+                
+                        echo Console::warn(label:strtoupper($type), message:$link) . PHP_EOL;
+                    }
+                }
             }
         }
+    }
+
+    public static function isEmpty(): bool {
+        return empty(self::get());
     }
 }

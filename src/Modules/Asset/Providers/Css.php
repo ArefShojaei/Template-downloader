@@ -10,7 +10,7 @@ use function App\createAssetProviderFile;
 
 
 final class Css implements AssetProviderInterface {
-    private const FOLDER = "/styles/";
+    private const ASSET_FOLDER = "/styles/";
 
     private static array $assets = [];
 
@@ -20,7 +20,7 @@ final class Css implements AssetProviderInterface {
 
         $file = createAssetProviderFile($asset, $pattern);
 
-        $meta = Asset::defineMeta(self::FOLDER, $file);
+        $meta = Asset::defineMeta(self::ASSET_FOLDER, $file);
     
         self::$assets[$asset] = $meta;
     }

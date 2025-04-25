@@ -10,7 +10,7 @@ use function App\createAssetProviderFile;
 
 
 final class Media implements AssetProviderInterface {
-    private const FOLDER = "/images/";
+    private const ASSET_FOLDER = "/images/";
 
     private static array $assets = [];
 
@@ -20,7 +20,7 @@ final class Media implements AssetProviderInterface {
 
         $file = createAssetProviderFile($asset, $pattern);
 
-        $meta = Asset::defineMeta(self::FOLDER, $file);
+        $meta = Asset::defineMeta(self::ASSET_FOLDER, $file);
     
         self::$assets[$asset] = $meta;
     }

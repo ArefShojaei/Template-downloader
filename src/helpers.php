@@ -98,3 +98,13 @@ function downloadTemplatePages(array $pages): void {
         echo Console::success(label:"Child TASK", message:"Done the child template task.") . PHP_EOL;
     }
 }
+
+function getAssetProviderFile(string $path, array $meta): array {
+    $domain = URL::domain();
+
+    $folder = $path . (!is_null($domain) ? $domain . "/" : "") . ltrim($meta["path"], "/");
+
+    $file = $folder . $meta["file"];
+
+    return [$folder, $file];
+}
