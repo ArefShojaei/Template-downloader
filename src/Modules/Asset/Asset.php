@@ -50,8 +50,8 @@ final class Asset implements AssetInterface {
                 
                 foreach ($assets as $link => $meta) {
                     $response = Http::get($link);
-    
-                    if ($response["status"] === Http::OK) {
+
+                    if ($response["status"] === Http::SUCCESS) {
                         $content = $response["data"];
         
                         [$folder, $file] =  getAssetProviderFile(
