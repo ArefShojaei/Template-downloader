@@ -21,8 +21,10 @@ $app = new App;
 $app->command("template {url}", function(string $url) {
     echo Console::info(label:"SIGNLE TASK", message:"Starting \"{$url}\" template task...") . PHP_EOL;
     
-    serveTemplate($url);
+    $client = serveTemplate($url);
     
+    $client->saveArchive();
+
     return Console::success(label:"SIGNLE TASK", message:"Done the template task successfully.");
 });
 
@@ -40,8 +42,10 @@ $app->command("template --config", function() {
         $pages = $meta["pages"];
 
         downloadTemplateFonts($fonts);
-        downloadTemplatePages($pages);
+        $client = downloadTemplatePages($pages);
     }
+
+    $client->saveArchive();
 
     return Console::success(label:"MULTIPLE TASK", message:"Done the template tasks successfully.");
 });

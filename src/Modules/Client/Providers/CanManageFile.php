@@ -15,11 +15,13 @@ trait CanManageFile {
     private function saveTemplate(string $filename): void {
         $html = $this->page->display();
 
-        foreach (Asset::get() as $type => $data) {
-            foreach ($data as $link => $meta) {
-                $assetFile = $meta["path"] . $meta["file"];
-
-                $html = str_replace($link, $assetFile, $html);
+        if (!Asset::isEmpty()) {
+            foreach (Asset::get() as $type => $data) {
+                foreach ($data as $link => $meta) {
+                    $assetFile = $meta["path"] . $meta["file"];
+    
+                    $html = str_replace($link, $assetFile, $html);
+                }
             }
         }
 

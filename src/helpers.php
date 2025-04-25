@@ -89,14 +89,16 @@ function downloadTemplateFonts(array $fonts): void {
     }
 }
 
-function downloadTemplatePages(array $pages): void {
+function downloadTemplatePages(array $pages): Client {
     foreach ($pages as $filename => $url) {
         echo Console::info(label:"Child TASK", message:"Starting \"{$url}\" child template task...") . PHP_EOL;
         
-        serveTemplate($url, $filename);
+        $client = serveTemplate($url, $filename);
 
         echo Console::success(label:"Child TASK", message:"Done the child template task.") . PHP_EOL;
     }
+
+    return $client;
 }
 
 function getAssetProviderFile(string $path, array $meta): array {
