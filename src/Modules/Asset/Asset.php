@@ -44,7 +44,7 @@ final class Asset implements AssetInterface {
     }
 
     public static function download(): void {
-        if (self::isEmpty()) {
+        if (!self::isEmpty()) {
             foreach (self::get() as $type => $assets) {
                 echo Console::info(label:"ASSET", message:"Downloading \"{$type}\" asset files...") . PHP_EOL;
                 
