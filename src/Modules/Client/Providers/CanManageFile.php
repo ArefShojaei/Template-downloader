@@ -49,11 +49,16 @@ trait CanManageFile {
     
         $files = [...glob($templatePattern), ...glob($assetPattern)];
 
-        
-        $zip = new Archive($path = "dist/" . $domain . File::ARCHIVE_FILE_EXT);
+        $file = "dist/" . $domain . File::ARCHIVE_FILE_EXT;
+
+        $zip = new Archive($file);
 
         foreach ($files as $file) {
-            $zip->addFile($file, ltrim($file, $path));
+            $parsedFilePath = explode($path, $file);
+            
+            $distFile = ltrim(end($parsedFilePath), "/");
+
+            $zip->addFile($file, $distFile);
         }
 
         $zip->addComment($comment ?? "");
