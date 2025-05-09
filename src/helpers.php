@@ -18,9 +18,20 @@ use PhpX\Utils\Console\Console;
 function replaceRelativeToAbsoluteLink(string $html, string $url): string {
     $pattern = "/(?<attr>[a-z-]*?src|href)\s*=['\"](?<src>(?!https?)(?!\/\/)[\w\:\/\.\&\?\=\-\_\%]+)['\"]/";
         
+    $parsedURL = explode("/", $url);
+
+    $lastPath = end($parsedURL);
+
+    if (str_contains($lastPath, ".html")) array_pop($parsedURL);
+
+    $url = implode("/", $parsedURL);
+
     return preg_replace_callback($pattern, function($matches) use ($url) {
         $attr = $matches["attr"];
+
         $src = $matches["src"];
+
+        $src = ltrim($src, ".");
 
         $src = rtrim($url, "/") . (!str_starts_with($src, "/") ? "/" . $src : $src);
         
