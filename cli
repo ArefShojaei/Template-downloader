@@ -7,7 +7,6 @@ use PhpX\{
     Components\Console\App,
     Utils\Console\Console
 };
-
 use function App\{
     downloadTemplateFonts,
     downloadTemplatePages,
@@ -17,16 +16,6 @@ use function App\{
 
 
 $app = new App;
-
-$app->command("template {url}", function(string $url) {
-    echo Console::info(label:"SIGNLE TASK", message:"Starting \"{$url}\" template task...") . PHP_EOL;
-    
-    $client = serveTemplate($url);
-    
-    $client->saveArchive();
-
-    return Console::success(label:"SIGNLE TASK", message:"Done the template task successfully.");
-});
 
 $app->command("template --config", function() {
     echo Console::info(label:"MULTIPLE TASK", message:"Starting template tasks...") . PHP_EOL;
@@ -48,6 +37,16 @@ $app->command("template --config", function() {
     $client->saveArchive();
 
     return Console::success(label:"MULTIPLE TASK", message:"Done the template tasks successfully.");
+});
+
+$app->command("template {url}", function(string $url) {
+    echo Console::info(label:"SIGNLE TASK", message:"Starting \"{$url}\" template task...") . PHP_EOL;
+    
+    $client = serveTemplate($url);
+    
+    $client->saveArchive();
+
+    return Console::success(label:"SIGNLE TASK", message:"Done the template task successfully.");
 });
 
 $app->launch();
