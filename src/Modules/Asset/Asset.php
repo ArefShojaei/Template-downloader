@@ -2,7 +2,7 @@
 
 namespace App\Modules\Asset;
 
-use App\Modules\Asset\AssetInterface;
+use App\Modules\Asset\AssetInterface as IAsset;
 use PhpX\Utils\Console\Console;
 use App\Utils\{
     Fs\Directory,
@@ -12,7 +12,7 @@ use App\Utils\{
 use function App\getAssetProviderFile;
 
 
-final class Asset implements AssetInterface {
+final class Asset implements IAsset {
     private const PROVDERS_FOLDER = "\\Providers\\";
 
     private const RELATIVE_ASSET_FOLDER = "/dist/";

@@ -3,10 +3,10 @@
 namespace App\Utils\Archive;
 
 use ZipArchive;
-use App\Utils\Archive\ArchiveInterface;
+use App\Utils\Archive\ArchiveInterface as IArchive;
 
 
-final class Archive implements ArchiveInterface {
+final class Archive implements IArchive {
     private ZipArchive $zip;
     
 

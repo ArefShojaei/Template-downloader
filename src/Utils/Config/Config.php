@@ -4,11 +4,11 @@ namespace App\Utils\Config;
 
 use App\Utils\{
     Fs\File,
-    Config\ConfigInterface
+    Config\ConfigInterface as IConfig
 };
 
 
-final class Config implements ConfigInterface {
+final class Config implements IConfig {
     private static array $data;
 
     public static function create(string $file): self {

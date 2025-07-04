@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use App\Utils\Archive\{
     Archive,
-    ArchiveInterface
+    ArchiveInterface as IArchive
 };
 
 
@@ -28,7 +28,7 @@ final class ArchiveTest extends TestCase {
      * @test
      * @depends createArchive
      */
-    public function addArchiveFile(Archive $archive) {
+    public function addArchiveFile(Archive $archive): void {
         $externalFile = "template.config.json";
 
         $result = $archive->addFile($externalFile);
@@ -41,7 +41,7 @@ final class ArchiveTest extends TestCase {
      * @test
      * @depends createArchive
      */
-    public function addArchiveComment(Archive $archive) {
+    public function addArchiveComment(Archive $archive): void {
         $result = $archive->addComment("My Archive File!");
 
         $this->assertIsBool($result);
@@ -52,7 +52,7 @@ final class ArchiveTest extends TestCase {
      * @test
      * @depends createArchive
      */
-    public function exportArchiveWithAllThings(Archive $archive) {
+    public function exportArchiveWithAllThings(Archive $archive): void {
         $result = $archive->save();
 
         $this->assertIsBool($result);
@@ -62,9 +62,9 @@ final class ArchiveTest extends TestCase {
     /**
      * @test
      */
-    public function checkToImplementArchiveInterface() {
+    public function checkToImplementArchiveInterface(): void {
         $interfaces = class_implements(Archive::class);
 
-        $this->assertArrayHasKey(ArchiveInterface::class, $interfaces);
+        $this->assertArrayHasKey(IArchive::class, $interfaces);
     }
 }

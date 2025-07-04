@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use App\Utils\Http\{
     Http,
-    HttpInterface
+    HttpInterface as IHttp
 };
 
 
@@ -43,7 +43,7 @@ final class HttpTest extends TestCase {
      * @test
      * @dataProvider getUrlProviders
      */
-    public function sendHttpGetRequest($url) {
+    public function sendHttpGetRequest($url): void {
         $response = Http::get($url);
 
         $this->assertIsArray($response);
@@ -53,7 +53,7 @@ final class HttpTest extends TestCase {
      * @test
      * @dataProvider getValidUrlProviders
      */
-    public function sendSuccessHttpGetRequest(string $url) {
+    public function sendSuccessHttpGetRequest(string $url): void {
         $response = Http::get($url);
 
         $this->assertIsArray($response);
@@ -74,7 +74,7 @@ final class HttpTest extends TestCase {
      * @test
      * @dataProvider getInvalidUrlProviders
      */
-    public function sendFailedHttpGetRequest(string $url) {
+    public function sendFailedHttpGetRequest(string $url): void {
         $response = Http::get($url);
 
         $this->assertIsArray($response);
@@ -96,9 +96,9 @@ final class HttpTest extends TestCase {
     /**
      * @test
      */
-    public function checkToImplementHttpInterface() {
+    public function checkToImplementHttpInterface(): void {
         $interfaces = class_implements(Http::class);
 
-        $this->assertArrayHasKey(HttpInterface::class, $interfaces);
+        $this->assertArrayHasKey(IHttp::class, $interfaces);
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Utils\URL;
 
-use App\Utils\URL\URLInterface;
+use App\Utils\URL\URLInterface as IURL;
 
 
-final class URL implements URLInterface {
+final class URL implements IURL {
     private static ?string $url;
 
     public static function set(string $url): void {

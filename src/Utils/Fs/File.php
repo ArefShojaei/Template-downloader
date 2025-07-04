@@ -2,10 +2,10 @@
 
 namespace App\Utils\Fs;
 
-use App\Utils\Fs\FileInterface;
+use App\Utils\Fs\FileInterface as IFile;
 
 
-final class File implements FileInterface {
+final class File implements IFile {
     public const ARCHIVE_FILE_EXT = ".zip";
     
     public const HTML_FILE_EXT = ".html";

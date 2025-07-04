@@ -3,7 +3,7 @@
 namespace App\Modules\Client;
 
 use Spider\Page;
-use App\Modules\Client\ClientInterface;
+use App\Modules\Client\ClientInterface as IClient;
 use App\Modules\Client\Providers\{
     CanDownloadFile,
     CanManageAsset,
@@ -13,7 +13,7 @@ use App\Modules\Client\Providers\{
 };
 
 
-final class Client implements ClientInterface {
+final class Client implements IClient {
     use CanManageTagElement, CanManageLink, CanManageAsset, CanManageFile, CanDownloadFile;
 
     private Page $page;

@@ -2,7 +2,7 @@
 
 namespace App\Modules\Client;
 
-use App\Modules\Client\ClientBuilderInterface;
+use App\Modules\Client\ClientBuilderInterface as IClientBuilder;
 use App\Utils\{
     Http\Http,
     URL\URL
@@ -18,7 +18,7 @@ use function App\{
 use Exception;
 
 
-final class ClientBuilder implements ClientBuilderInterface {
+final class ClientBuilder implements IClientBuilder {
     private string $url;
     
     private string $html;

@@ -4,12 +4,12 @@ namespace App\Modules\Asset\Providers;
 
 use App\Modules\Asset\{
     Asset,
-    AssetProviderInterface
+    AssetProviderInterface as IAssetProvider
 };
 use function App\createAssetProviderFile;
 
 
-final class Css implements AssetProviderInterface {
+final class Css implements IAssetProvider {
     private const ASSET_FOLDER = "/styles/";
 
     private static array $assets = [];

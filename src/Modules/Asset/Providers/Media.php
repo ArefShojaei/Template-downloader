@@ -4,12 +4,12 @@ namespace App\Modules\Asset\Providers;
 
 use App\Modules\Asset\{
     Asset,
-    AssetProviderInterface
+    AssetProviderInterface as IAssetProvider
 };
 use function App\createAssetProviderFile;
 
 
-final class Media implements AssetProviderInterface {
+final class Media implements IAssetProvider {
     private const ASSET_FOLDER = "/images/";
 
     private static array $assets = [];

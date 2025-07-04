@@ -2,10 +2,10 @@
 
 namespace App\Utils\Fs;
 
-use App\Utils\Fs\DirectoryInterface;
+use App\Utils\Fs\DirectoryInterface as IDirectory;
 
 
-final class Directory implements DirectoryInterface {
+final class Directory implements IDirectory {
     public static function create(string $path): bool {
         return mkdir($path, recursive:true);
     }

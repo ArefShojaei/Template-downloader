@@ -4,12 +4,12 @@ namespace App\Modules\Asset\Providers;
 
 use App\Modules\Asset\{
     Asset,
-    AssetProviderInterface
+    AssetProviderInterface as IAssetProvider
 };
 use function App\createAssetProviderFile;
 
 
-final class Js implements AssetProviderInterface {
+final class Js implements IAssetProvider {
     private const ASSET_FOLDER = "/scripts/";
 
     private static array $assets = [];

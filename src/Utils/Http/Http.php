@@ -5,10 +5,10 @@ namespace App\Utils\Http;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use PhpX\Utils\Console\Console;
-use App\Utils\Http\HttpInterface;
+use App\Utils\Http\HttpInterface as IHttp;
 
 
-final class Http implements HttpInterface {
+final class Http implements IHttp {
     public const OK = 200;
 
     public const SUCCESS = "success";
