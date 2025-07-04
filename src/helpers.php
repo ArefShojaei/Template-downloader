@@ -90,7 +90,7 @@ function downloadTemplateFonts(array $fonts): void {
 
         $domain = URL::domain();
 
-        $folder = __DIR__ . "/dist/" . (!is_null($domain) ? $domain . "/" : "") . "fonts/";
+        $folder = dirname(__DIR__) . "/dist/" . (!is_null($domain) ? $domain . "/" : "") . "fonts/";
 
         $fontFile = $folder . $file;
 
