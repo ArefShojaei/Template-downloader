@@ -1,25 +1,27 @@
 <img src="docs/thumbnail.png" />
 
-<h1 align="center">Get your own favorite HTML Template 😎</h1>
+<h1 align="center">Download your own favorite HTML Template from anywhere 😎</h1>
 
-### Demo of extracted template:
-```bash
-> Template
-          |__ assets
-                    |______ images/
-                    |______ fonts/
-                    |______ scripts/
-                    |______ styles/
- 
-          |__ index.html
+## Demo
+```txt
+template/
+|
+├── assets
+│   ├── images/
+│   ├── fonts/
+│   ├── scripts/
+│   └── styles/
+|
+└── index.html
 ```
 
-# Usage:
-
+## Guide:
+> Download single template with URL
 ```bash
-# Get single page of template
 php cli template {url}
+```
 
-# Get package of template pages + fonts and more ...
+> Download multiple templates from "template.config.json" file
+```bash
 php cli template --config
 ```
