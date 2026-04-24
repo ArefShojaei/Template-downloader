@@ -1,18 +1,23 @@
 {
-    "name": "arefshojaei/template-extraction",
-    "description": "Extract HTML Template",
+    "name": "arefshojaei/template-downloader",
+    "description": "HTML template downloader",
     "license": "MIT",
+    "type": "project",
     "keywords": [
         "php",
         "html",
         "template",
-        "theme"
+        "theme",
+        "downloader",
+        "file",
+        "parser",
+        "rendering",
+        "ssr"
     ],
-    "type": "project",
     "authors": [
         {
             "name": "ArefShojaei",
-            "email": "arefshojaei82dev@gmail.com"
+            "email": "arefshojaei82@gmail.com"
         }
     ],
     "autoload": {
