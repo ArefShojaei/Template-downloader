@@ -3,15 +3,31 @@
 <h1 align="center">Download your own favorite HTML Template from anywhere 😎</h1>
 
 ## Installation
+> Composer installer
+```bash
+composer create-project arefshojaei/template-downloader my-project
+```
+
+OR
+
+> Clone the repository
 ```bash
 git clone https://github.com/ArefShojaei/Template-downloader.git
 ```
 
 ## Setup
+> Move to the folder
+```bash
+cd my-project
+```
+
+OR
+
 ```bash
 cd Template-downloader
 ```
 
+> Install dependencies
 ```bash
 composer install
 ```
