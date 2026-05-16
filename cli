@@ -40,6 +40,12 @@ $app->command("template --config", function() {
 });
 
 $app->command("template {url}", function(string $url) {
+    if (!str_contains("http", $url) && !str_contains("https", $url)) {
+        echo Console::error("Invalid page URL!");
+
+        exit;
+    }
+
     echo Console::info(label:"SIGNLE TASK", message:"Starting \"{$url}\" template task...") . PHP_EOL;
     
     $client = serveTemplate($url);

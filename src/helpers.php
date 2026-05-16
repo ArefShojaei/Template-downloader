@@ -79,7 +79,19 @@ function serveTemplate(string $url, string $filename = "index"): Client {
 }
 
 function downloadTemplateFonts(array $fonts): void {
+    if (!count($fonts)) {
+        echo Console::error("Fonts can not be empty!");
+
+        exit;
+    }
+
     foreach ($fonts as $font) {
+        if (!str_contains("http", $font) && !str_contains("https", $font)) {
+            echo Console::error("Invalid font URL!");
+    
+            exit;
+        }
+
         URL::set($font);
 
         $content = Http::get($font);
@@ -101,7 +113,19 @@ function downloadTemplateFonts(array $fonts): void {
 }
 
 function downloadTemplatePages(array $pages): Client {
+    if (!count($pages)) {
+        echo Console::error("Pages can not be empty!");
+
+        exit;
+    }
+
     foreach ($pages as $filename => $url) {
+        if (!str_contains("http", $url) && !str_contains("https", $url)) {
+            echo Console::error("Invalid page URL!");
+    
+            exit;
+        }
+
         echo Console::info(label:"Child TASK", message:"Starting \"{$url}\" child template task...") . PHP_EOL;
         
         $client = serveTemplate($url, $filename);
