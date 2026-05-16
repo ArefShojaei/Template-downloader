@@ -2,17 +2,18 @@
 
 <h1 align="center">Download your own favorite HTML Template from anywhere 😎</h1>
 
-## Demo
-```txt
-template/
-|
-├── assets
-│   ├── images/
-│   ├── fonts/
-│   ├── scripts/
-│   └── styles/
-|
-└── index.html
+## Installation
+```bash
+git clone https://github.com/ArefShojaei/Template-downloader.git
+```
+
+## Setup
+```bash
+cd Template-downloader
+```
+
+```bash
+composer install
 ```
 
 ## Guide:
@@ -25,3 +26,39 @@ php cli template {url}
 ```bash
 php cli template --config
 ```
+
+## Demo
+After downloading the template, here is demo of the downloaded template
+```txt
+template/
+|
+├── assets
+│   ├── images/
+│   ├── fonts/
+│   ├── scripts/
+│   └── styles/
+|
+└── index.html
+```
+
+> Note: If you want to get better the response, you will be able to must run a local web-server at the template folder.
+
+There are two ways to run a local web-server
+
+> First way
+
+Using **Live-server** ( vs-code extention )
+
+> Second way
+
+Run PHP built-in web-server with this command
+
+```bash
+cd dist/template-name
+```
+
+```php
+php -S localhost:5200
+```
+
+Done.
