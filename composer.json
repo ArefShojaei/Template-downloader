@@ -34,7 +34,7 @@
         }
     },
     "require": {
-        "php" : "^8.0",
+        "php" : "^8.2",
         "arefshojaei/php-x": "^1.6",
         "arefshojaei/spider": "^2.3",
         "guzzlehttp/guzzle": "^7.9"
