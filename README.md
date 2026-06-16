@@ -1,80 +1,218 @@
-<img src="docs/thumbnail.png" />
+<div align="center">
+    <img src="docs/thumbnail.png" alt="Template Downloader" />
 
-<h1 align="center">Download your own favorite HTML Template from anywhere 😎</h1>
+<h1 align="center">📥 Template Downloader - SSR Rendering Model</h1>
 
-## Installation
-> Composer installer
+<p align="center">
+    Download your favorite HTML templates from anywhere with a simple CLI command.
+    Automatically fetch HTML pages, assets, styles, scripts, images, and organize them into a ready-to-use local project.
+</p>
+
+</div>
+
+---
+
+## ✨ Features
+
+* 🌐 Download any public HTML template from a URL
+* 🎨 Automatically detect and download CSS, JavaScript, fonts, and images
+* 📁 Organize assets into a clean project structure
+* ⚡ Simple CLI interface
+* 📦 Support bulk downloading using configuration files
+* 🪶 Lightweight and built with pure PHP
+* 🚀 Ready for local development and customization
+
+---
+
+## 📥 Installation
+
+### Install with Composer
+
 ```bash
 composer create-project arefshojaei/template-downloader my-project
 ```
 
-OR
+Move into the project directory:
 
-> Clone the repository
-```bash
-git clone https://github.com/ArefShojaei/Template-downloader.git
-```
-
-## Setup
-> Move to the folder
 ```bash
 cd my-project
 ```
 
-OR
+---
+
+## Clone from GitHub
 
 ```bash
+git clone https://github.com/ArefShojaei/Template-downloader.git
+
 cd Template-downloader
 ```
 
-> Install dependencies
+Install dependencies:
+
 ```bash
 composer install
 ```
 
-## Guide:
-> Download single template with URL
+---
+
+## 🚀 Quick Start
+
+### Download a single template
+
+Use a template URL:
+
 ```bash
-php cli template {url}
+php cli template https://example.com
 ```
 
-> Download multiple templates from "template.config.json" file
+---
+
+### Download multiple templates
+
+Define your templates inside:
+
+```txt
+template.config.json
+```
+
+Then run:
+
 ```bash
 php cli template --config
 ```
 
-## Demo
-After downloading the template, here is demo of the downloaded template
+---
+
+## 📂 Downloaded Project Structure
+
+After downloading a template, your output will look like this:
+
 ```txt
 template/
-|
-├── assets
+│
+├── assets/
 │   ├── images/
 │   ├── fonts/
 │   ├── scripts/
 │   └── styles/
-|
+│
 └── index.html
 ```
 
-> Note: If you want to get better the response, you will be able to must run a local web-server at the template folder.
+The template is now available for local development and customization.
 
-There are two ways to run a local web-server
+---
 
-> First way
+## 🖥 Preview the Downloaded Template
 
-Using **Live-server** ( vs-code extention )
+For the best experience, run the template using a local web server because some assets may require HTTP access.
 
-> Second way
+### Method 1: Live Server (VS Code Extension)
 
-Run PHP built-in web-server with this command
+Install the **Live Server** extension and open the template directory.
+
+---
+
+### Method 2: PHP Built-in Web Server
+
+Move to the downloaded template:
 
 ```bash
 cd dist/template-name
 ```
 
-```php
+Start the server:
+
+```bash
 php -S localhost:5200
 ```
 
-Done.
+Open your browser:
+
+```txt
+http://localhost:5200
+```
+
+---
+
+## 🔧 Example Workflow
+
+1. Download a template:
+
+```bash
+php cli template https://my-template.com
+```
+
+2. Enter the generated directory:
+
+```bash
+cd dist/my-template
+```
+
+3. Run a local server:
+
+```bash
+php -S localhost:5200
+```
+
+4. Customize the template files and start development.
+
+---
+
+## 🏗 How It Works
+
+```txt
+Website URL
+     |
+     |
+ HTML Parser
+     |
+     |
+ Asset Extractor
+     |
+     |
+ Downloader Engine
+     |
+     |
+ File Organizer
+     |
+     |
+ Local Template Project
+```
+
+---
+
+## 💡 Use Cases
+
+This project is useful for:
+
+* Saving HTML templates for offline usage
+* Creating local copies of website themes
+* Learning frontend architecture
+* Customizing existing templates
+* Building prototypes faster
+
+---
+
+## 🔥 Why Template Downloader?
+
+Instead of manually downloading every image, stylesheet, font, and JavaScript file, Template Downloader automates the entire process with a single command.
+
+It saves time and provides a clean starting point for your frontend projects.
+
+---
+
+## 👨‍💻 Author
+
+**Aref Shojaei**
+
+* GitHub: https://github.com/ArefShojaei
+
+---
+
+## ⭐ Show Your Support
+
+If this project saves your time and helps your workflow, consider giving it a **Star ⭐** on GitHub.
+
+Your support motivates future improvements.
