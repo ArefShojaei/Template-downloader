@@ -29,7 +29,7 @@
 ### Install with Composer
 
 ```bash
-composer create-project arefshojaei/template-downloader my-project
+composer create-project arefshojaei/template-downloader:dev-main my-project
 ```
 
 Move into the project directory:
